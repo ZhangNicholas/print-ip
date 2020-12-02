@@ -8,6 +8,10 @@
 
 #include "is_stl_container.h"
 
+/**
+* Integral types overload
+*/
+
 template <typename T> // integral types
 auto print_ip(const T& someIntType)
 -> std::enable_if_t<std::is_integral<T>::value>
@@ -23,6 +27,10 @@ auto print_ip(const T& someIntType)
 	std::cout << std::endl;
 }
 
+/**
+* Container types overload
+*/
+
 template <typename T> // vector, list
 auto print_ip(const T& container)
 -> std::enable_if_t<is_stl_container<T>::value>
@@ -36,6 +44,9 @@ auto print_ip(const T& container)
 	std::cout << std::endl;
 }
 
+/**
+* String type overload
+*/
 
 template <typename T> // string
 auto print_ip(const T& s)
