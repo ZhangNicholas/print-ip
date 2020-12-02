@@ -36,7 +36,11 @@ auto print_ip(const T& container)
 	std::cout << std::endl;
 }
 
-auto print_ip(const std::string& s) { // string
+
+template <typename T> // string
+auto print_ip(const T& s)
+-> std::enable_if_t<std::is_same_v<::std::string, T>>
+{
 	std::cout << s << std::endl;
 }
 
