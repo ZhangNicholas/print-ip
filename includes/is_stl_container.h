@@ -5,6 +5,10 @@
 #include <list>
 #include <vector>
 
+/**
+ *  Enum defines container types which will be printed by the same overload of the print_ip function.
+ */
+
 namespace is_stl_container_impl {
 	template <typename T>       struct is_stl_container :std::false_type {};
 	template <typename... Args> struct is_stl_container<std::vector            <Args...>> :std::true_type {};
