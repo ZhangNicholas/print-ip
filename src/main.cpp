@@ -55,10 +55,30 @@ auto print_ip(const T& s)
 	std::cout << s << std::endl;
 }
 
+//from namespace fake_std17
+template<class...> struct conjunction : std::true_type { };
+template<class B1> struct conjunction<B1> : B1 { };
+template<class B1, class... Bn>
+struct conjunction<B1, Bn...>
+	: std::conditional_t<bool(B1::value), conjunction<Bn...>, B1> {};
+
+// from namespace sfinae
+template<typename Expected, typename... Actual>
+using AreTypesSame = typename std::enable_if_t<conjunction<std::is_same<Actual, Expected>...>::value>;
+
+template<typename T, typename... Args, typename = AreTypesSame<T, Args...>>
+void print_ip(const std::tuple<T, Args...>& t) {
+	//print_tuple_impl(ip, std::index_sequence_for<T, Args...>{}, ".");
+	std::cout << "tuple overload with sfinae. All argumens have the same type" << std::endl;
+}
+
+
 int main() {
 	std::vector<int> v{ 46, 45, 44, 43, 42 };
 	std::list<int> l = { 52, 53, 54, 55 };
 	std::string s{ "trololo" };
+
+	std::tuple<int, int, int, int, int> t{ 255, 254, 253, 252, 251 };
 
 	std::cout << "char(-1) as ";
 	print_ip(char(-1));
@@ -74,4 +94,6 @@ int main() {
 	print_ip(v);
 	std::cout << "list as ";
 	print_ip(l);
+	std::cout << "tuple of the elements of the same type ";
+	print_ip(t);
 }
